@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Femme Language Translator</title>
+	</head>
+	<body>
+		<h1>팜므어 번역기</h1>
+		<h3>Input</h3>
+		<p>
+			<textarea id="input" cols="30" rows="10" placeholder="팜므어로 변형할 문장을 입력해주세요"></textarea>
+		</p>
+		<button type="button" id="submit">Submit</button>
+		<h3>Result</h3>
+		<p id="result"></p>
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script src="hangul.js" type="text/javascript"></script>
+		<script>
+				// javascript syntax
+				var femme = function(str) {
+					return str.split('').map(function(char) {
+						var d = Hangul.d(char);
+						var a = char;
+						if (d[3] && Hangul.isVowel(d[1]) && Hangul.isVowel(d[2])) {
+							var temp = d[3];
+							d[3] = d[2];
+							d[2] = temp;
+							a = Hangul.a(d)
+						}
+						return a;
+					}).join('');
+				};
+				// jquery syntax
+				$(function() {
+					$('button').click(function() {
+						console.log(femme($('#input').val()));
+					// document.getElementById('result').textContent = femme($('#input').val());
+					$('#result').text(femme($('#input').val()));
+				});
+				});
+		</script>
+	</body>
+</html>
